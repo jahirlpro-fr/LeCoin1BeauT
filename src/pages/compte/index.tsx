@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getOrdersByUser, type OrderWithDetails } from "@/services/ordersService";
+import { getUserOrders, type OrderWithDetails } from "@/services/ordersService";
 import { User, Package, MapPin, Heart, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -31,7 +31,7 @@ export default function AccountPage() {
     setLoading(true);
     try {
       const userId = "temp-user-id"; // TODO: remplacer par auth.uid()
-      const userOrders = await getOrdersByUser(userId);
+        const userOrders = await getUserOrders(userId);
       setOrders(userOrders);
       
       // TODO: Charger profil utilisateur
