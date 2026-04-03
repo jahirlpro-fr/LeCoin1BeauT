@@ -1,12 +1,62 @@
-import React from 'react'
+import { SEO } from "@/components/SEO";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Hero } from "@/components/Hero";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold text-foreground">Hello World</h1>
-        <p className="text-lg text-muted-foreground">This is going to be your softgen app, start by describing your project.</p>
+    <>
+      <SEO
+        title="LE COIN 1 BEAUT - Parfums & Cosmétiques de Luxe"
+        description="Découvrez notre sélection de parfums d'exception et produits de beauté raffinés. Livraison offerte dès 60€."
+        url="/"
+      />
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1">
+          <Hero />
+          
+          {/* Featured Categories - Coming soon */}
+          <section className="container-luxury py-16">
+            <div className="text-center mb-12">
+              <h2 className="font-serif text-4xl md:text-5xl mb-4">
+                Nos Univers
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Explorez nos collections de produits de beauté soigneusement sélectionnés
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Placeholder categories */}
+              <div className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-creme">
+                  <h3 className="font-serif text-2xl mb-2 group-hover:text-gold transition-luxury">Parfums</h3>
+                  <p className="text-sm text-creme/80">Fragrances d'exception</p>
+                </div>
+              </div>
+
+              <div className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-creme">
+                  <h3 className="font-serif text-2xl mb-2 group-hover:text-gold transition-luxury">Maquillage</h3>
+                  <p className="text-sm text-creme/80">Sublimez votre beauté</p>
+                </div>
+              </div>
+
+              <div className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-creme">
+                  <h3 className="font-serif text-2xl mb-2 group-hover:text-gold transition-luxury">Soins</h3>
+                  <p className="text-sm text-creme/80">Prenez soin de vous</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+        <Footer />
       </div>
-    </main>
-  )
+    </>
+  );
 }
