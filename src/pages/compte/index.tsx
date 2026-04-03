@@ -157,12 +157,12 @@ export default function AccountPage() {
                         </div>
 
                         <div className="space-y-2 mb-4">
-                          {order.order_items?.map(item => (
+                          {order.items?.map(item => (
                             <div key={item.id} className="flex justify-between text-sm">
                               <span className="text-muted-foreground">
                                 {item.product?.name} (x{item.quantity})
                               </span>
-                              <span>{(item.price * item.quantity).toFixed(2)} €</span>
+                              <span>{item.total_price.toFixed(2)} €</span>
                             </div>
                           ))}
                         </div>
@@ -170,7 +170,7 @@ export default function AccountPage() {
                         <div className="flex justify-between items-center pt-4 border-t border-border">
                           <span className="font-medium">Total</span>
                           <span className="text-lg font-medium text-gold">
-                            {order.total_amount.toFixed(2)} €
+                            {order.total.toFixed(2)} €
                           </span>
                         </div>
 
