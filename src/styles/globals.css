@@ -1,84 +1,53 @@
+/* Import Fonts - MUST be FIRST */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
 @layer base {
   :root {
-    --radius: 0.55rem;
-    --background: 0 0% 100%;
-    --foreground: 330 0% 0.3%;
-    --card: 0 0% 100%;
-    --card-foreground: 330 0% 0.3%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 330 0% 0.3%;
-    --primary: 0 0% 4.5%;
-    --primary-foreground: 0 0% 97.5%;
-    --secondary: 0 0% 97.3%;
-    --secondary-foreground: 0 0% 4.5%;
-    --muted: 0 0% 97.3%;
-    --muted-foreground: 0 0% 55.7%;
-    --accent: 0 0% 97.3%;
-    --accent-foreground: 0 0% 4.5%;
-    --destructive: 359.9132 100.2494% 67.8807%;
-    --destructive-foreground: 0 0% 0%;
-    --border: 0 0% 92.2%;
-    --input: 0 0% 92.2%;
-    --ring: 0 0% 70.8%;
-    --chart-1: 41.1 71.2% 54.4%;
-    --chart-2: 184.7 32.4% 48.6%;
-    --chart-3: 227.4 15.2% 33.3%;
-    --chart-4: 84.4 74.8% 75.7%;
-    --chart-5: 70.1 74.3% 70.5%;
-    --sidebar: 0 0% 97.5%;
-    --sidebar-foreground: 330 0% 0.3%;
-    --sidebar-primary: 0 0% 4.5%;
-    --sidebar-primary-foreground: 0 0% 97.5%;
-    --sidebar-accent: 0 0% 97.3%;
-    --sidebar-accent-foreground: 0 0% 4.5%;
-    --sidebar-border: 0 0% 92.2%;
-    --sidebar-ring: 0 0% 70.8%;
-  }
-
-  .dark {
-    --radius: 0.55rem;
-    --background: 330 0% 0.3%;
-    --foreground: 0 0% 97.5%;
-    --card: 0 0% 4.5%;
-    --card-foreground: 0 0% 97.5%;
-    --popover: 0 0% 8.6%;
-    --popover-foreground: 0 0% 97.5%;
-    --primary: 0 0% 92.2%;
-    --primary-foreground: 0 0% 4.5%;
-    --secondary: 0 0% 8.6%;
-    --secondary-foreground: 0 0% 97.5%;
-    --muted: 0 0% 8.6%;
-    --muted-foreground: 0 0% 70.8%;
-    --accent: 0 0% 21.2%;
-    --accent-foreground: 0 0% 97.5%;
-    --destructive: 359.9132 100.2494% 67.8807%;
-    --destructive-foreground: 0 0% 0%;
-    --border: 0 0% 100% / 15%;
-    --input: 0 0% 100% / 15%;
-    --ring: 0 0% 55.7%;
-    --chart-1: 264.4 77.2% 41.9%;
-    --chart-2: 162.5 46.7% 57.3%;
-    --chart-3: 70.1 74.3% 70.5%;
-    --chart-4: 303.9 75.8% 51.6%;
-    --chart-5: 16.4 84.7% 55.4%;
-    --sidebar: 0 0% 4.5%;
-    --sidebar-foreground: 0 0% 97.5%;
-    --sidebar-primary: 264.4 77.2% 41.9%;
-    --sidebar-primary-foreground: 0 0% 97.5%;
-    --sidebar-accent: 0 0% 8.6%;
-    --sidebar-accent-foreground: 0 0% 97.5%;
-    --sidebar-border: 0 0% 100% / 10%;
-    --sidebar-ring: 0 0% 43.9%;
+    /* Luxury Beauty Palette */
+    --noir-profond: 10 10 10;        /* #0A0A0A - Sophistication */
+    --creme-ivoire: 40 43 98;        /* #FDFBF7 - Douceur luxueuse */
+    --or-champagne: 45 69 42;        /* #D4AF37 - Accents précieux */
+    --gris-perle: 60 11 96;          /* #F5F5F0 - Surfaces secondaires */
+    --rose-poudre: 20 50 94;         /* #F4E8E0 - Touches beauté */
+    
+    /* shadcn Color Tokens - HSL format for opacity support */
+    --background: 40 43 98;          /* Crème Ivoire */
+    --foreground: 10 10 10;          /* Noir Profond */
+    
+    --card: 60 11 96;                /* Gris Perle */
+    --card-foreground: 10 10 10;
+    
+    --popover: 40 43 98;
+    --popover-foreground: 10 10 10;
+    
+    --primary: 10 10 10;             /* Noir Profond */
+    --primary-foreground: 40 43 98;  /* Crème sur noir */
+    
+    --secondary: 60 11 96;           /* Gris Perle */
+    --secondary-foreground: 10 10 10;
+    
+    --muted: 60 11 96;
+    --muted-foreground: 10 10 35;
+    
+    --accent: 45 69 42;              /* Or Champagne */
+    --accent-foreground: 10 10 10;
+    
+    --destructive: 0 72 51;
+    --destructive-foreground: 40 43 98;
+    
+    --border: 0 0 88;
+    --input: 0 0 88;
+    --ring: 45 69 42;                /* Or Champagne focus rings */
+    
+    --radius: 0.5rem;
+    
+    /* Custom Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--creme-ivoire)) 0%, hsl(var(--rose-poudre)) 100%);
+    --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #F4E8D0 100%);
   }
 }
 
@@ -86,13 +55,50 @@
   * {
     @apply border-border;
   }
+  
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: 0.02em;
   }
 }
 
-@layer components {
-  .container {
-    @apply mx-auto px-4 md:px-6 lg:px-8 max-w-7xl w-full;
+@layer utilities {
+  /* Luxury Spacing */
+  .container-luxury {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+  }
+  
+  /* Premium Shadows */
+  .shadow-luxury {
+    box-shadow: 0 4px 24px rgba(10, 10, 10, 0.08), 0 1px 3px rgba(10, 10, 10, 0.04);
+  }
+  
+  .shadow-luxury-lg {
+    box-shadow: 0 12px 48px rgba(10, 10, 10, 0.12), 0 4px 16px rgba(10, 10, 10, 0.06);
+  }
+  
+  /* Elegant Transitions */
+  .transition-luxury {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  /* Gold Accent Hover */
+  .hover-gold {
+    @apply transition-luxury hover:text-accent;
+  }
+  
+  /* Text Gradient Gold */
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #D4AF37 0%, #F4E8D0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }

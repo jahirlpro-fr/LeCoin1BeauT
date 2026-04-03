@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <!-- Cercle extérieur -->
+  <circle cx="200" cy="200" r="150" stroke="#0A0A0A" stroke-width="4" fill="#FDFBF7"/>
+  <circle cx="200" cy="200" r="145" stroke="#0A0A0A" stroke-width="1" fill="none"/>
+  
+  <!-- Motif botanique stylisé -->
+  <path d="M200 120 L200 150 M190 135 L200 150 L210 135" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M200 150 L185 165 M185 165 L175 160 M185 165 L180 175" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M200 150 L215 165 M215 165 L225 160 M215 165 L220 175" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M175 160 L165 150 M225 160 L235 150" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Texte LE COIN 1 -->
+  <text x="200" y="215" font-family="serif" font-size="32" font-weight="400" text-anchor="middle" fill="#0A0A0A" letter-spacing="2">LE COIN 1</text>
+  
+  <!-- Texte BEAUT -->
+  <text x="200" y="245" font-family="serif" font-size="28" font-weight="300" text-anchor="middle" fill="#0A0A0A" letter-spacing="6">BEAUT</text>
+  
+  <!-- Petits points décoratifs -->
+  <circle cx="130" cy="200" r="1.5" fill="#0A0A0A"/>
+  <circle cx="145" cy="200" r="1.5" fill="#0A0A0A"/>
+  <circle cx="255" cy="200" r="1.5" fill="#0A0A0A"/>
+  <circle cx="270" cy="200" r="1.5" fill="#0A0A0A"/>
+</svg>
