@@ -37,6 +37,12 @@ export default function AccountPage() {
         }
     }, [user, authLoading]);
 
+    useEffect(() => {
+        if (user?.email) {
+            setProfile(prev => ({ ...prev, email: user.email }));
+        }
+    }, [user?.email]);
+
     const loadUserData = async () => {
         if (!user) return;
         setLoading(true);
