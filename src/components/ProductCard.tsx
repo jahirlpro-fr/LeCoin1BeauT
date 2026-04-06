@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import { Heart, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,26 +15,55 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onAddToCart, onToggleWishlist, isInWishlist }: ProductCardProps) {
-  const hasDiscount = product.discount_percentage && product.discount_percentage > 0;
-  const discountedPrice = hasDiscount
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const hasDiscount = product.discount_percentage && product.discount_percentage > 0;
+    const discountedPrice = hasDiscount
     ? product.price * (1 - product.discount_percentage! / 100)
     : product.price;
 
   return (
     <div className="group relative bg-card rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury">
       {/* Image Container */}
-      <Link href={`/produits/${product.slug}`} className="block relative aspect-[3/4] overflow-hidden bg-perle">
+          <div className="block relative aspect-[3/4] overflow-hidden bg-perle">
               {product.images && product.images.length > 0 ? (
-                  <img
-                      src={product.images[0]}
-            alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-luxury"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-            <ShoppingCart className="h-16 w-16" />
-          </div>
-        )}
+                  <Link href={`/produits/${product.slug}`}>
+                      <img
+                          src={product.images[currentImageIndex]}
+                          alt={product.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-luxury"
+                      />
+                  </Link>
+              ) : (
+                  <Link href={`/produits/${product.slug}`}>
+                      <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                          <ShoppingCart className="h-16 w-16" />
+                      </div>
+                  </Link>
+              )}
+
+              {/* Navigation images */}
+              {product.images && product.images.length > 1 && (
+                  <>
+                      <button
+                          onClick={(e) => {
+                              e.preventDefault();
+                              setCurrentImageIndex((prev) => (prev === 0 ? product.images!.length - 1 : prev - 1));
+                          }}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/80 backdrop-blur flex items-center justify-center hover:bg-background transition-luxury opacity-0 group-hover:opacity-100"
+                      >
+                          ‹
+                      </button>
+                      <button
+                          onClick={(e) => {
+                              e.preventDefault();
+                              setCurrentImageIndex((prev) => (prev === product.images!.length - 1 ? 0 : prev + 1));
+                          }}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/80 backdrop-blur flex items-center justify-center hover:bg-background transition-luxury opacity-0 group-hover:opacity-100"
+                      >
+                          ›
+                      </button>
+                  </>
+              )}
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
