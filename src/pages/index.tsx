@@ -2,6 +2,7 @@ import { SEO } from "@/components/SEO";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
@@ -27,32 +28,31 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Placeholder categories */}
-              <div className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-creme">
-                  <h3 className="font-serif text-2xl mb-2 group-hover:text-gold transition-luxury">Parfums</h3>
-                  <p className="text-sm text-creme/80">Fragrances d'exception</p>
-                </div>
-              </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                          <Link href="/parfums" className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
+                              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
+                              <div className="absolute bottom-0 left-0 right-0 p-6 text-creme">
+                                  <h3 className="font-serif text-2xl mb-2 group-hover:text-gold transition-luxury">Parfums</h3>
+                                  <p className="text-sm text-creme/80">Fragrances d'exception</p>
+                              </div>
+                          </Link>
 
-                          <div className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
+                          <Link href="/parfums-interieur" className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
                               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
                               <div className="absolute bottom-0 left-0 right-0 p-6 text-creme">
                                   <h3 className="font-serif text-2xl mb-2 group-hover:text-gold transition-luxury">Parfums d'intérieur</h3>
                                   <p className="text-sm text-creme/80">Sublimez votre intérieur</p>
                               </div>
-                          </div>
+                          </Link>
 
-              <div className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-creme">
-                  <h3 className="font-serif text-2xl mb-2 group-hover:text-gold transition-luxury">Soins</h3>
-                  <p className="text-sm text-creme/80">Prenez soin de vous</p>
-                </div>
-              </div>
-            </div>
+                          <Link href="/soins" className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
+                              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
+                              <div className="absolute bottom-0 left-0 right-0 p-6 text-creme">
+                                  <h3 className="font-serif text-2xl mb-2 group-hover:text-gold transition-luxury">Soins</h3>
+                                  <p className="text-sm text-creme/80">Prenez soin de vous</p>
+                              </div>
+                          </Link>
+                      </div>
           </section>
         </main>
         <Footer />
