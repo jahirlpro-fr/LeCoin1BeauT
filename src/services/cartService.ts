@@ -5,13 +5,13 @@ type CartItem = Database["public"]["Tables"]["cart_items"]["Row"];
 type CartItemInsert = Database["public"]["Tables"]["cart_items"]["Insert"];
 
 export interface CartItemWithDetails extends CartItem {
-  product?: {
-    id: string;
-    name: string;
-    slug: string;
-    price: number;
-    image_url: string | null;
-  };
+    product?: {
+        id: string;
+        name: string;
+        slug: string;
+        price: number;
+        images: string[] | null;
+    };
   variant?: {
     id: string;
     name: string;
@@ -25,7 +25,7 @@ export async function getCart(userId: string): Promise<CartItemWithDetails[]> {
     .from("cart_items")
     .select(`
       *,
-      product:products(id, name, slug, price, image_url),
+      product:products(id, name, slug, price, images),
       variant:product_variants(id, name, price_adjustment)
     `)
     .eq("user_id", userId)
