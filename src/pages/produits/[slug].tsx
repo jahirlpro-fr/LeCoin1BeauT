@@ -11,11 +11,13 @@ import { getProductBySlug, type ProductWithDetails } from "@/services/productsSe
 import { addToCart } from "@/services/cartService";
 import { Heart, ShoppingCart, Check, Truck, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ProductPage() {
   const router = useRouter();
   const { slug } = router.query;
-  const { toast } = useToast();
+    const { toast } = useToast();
+    const { user, requireAuth } = useAuth();
   
   const [product, setProduct] = useState<ProductWithDetails | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
@@ -44,14 +46,12 @@ export default function ProductPage() {
     }
   };
 
-  const handleAddToCart = async () => {
-    if (!product) return;
-    
-    // TODO: Vérifier authentification
-    const userId = "temp-user-id"; // À remplacer par auth.uid()
-    
-    try {
-      await addToCart(userId, product.id, quantity, selectedVariant || undefined);
+    const handleAddToCart = async () => {
+        if (!product) return;
+        if (!requireAuth()) return;
+
+        try {
+            await addToCart(user!.id, product.id, quantity, selectedVariant || undefined);
       toast({
         title: "Produit ajouté au panier",
         description: `${product.name} (x${quantity})`,
