@@ -134,9 +134,9 @@ export default function CartPage() {
                       {/* Infos */}
                       <div className="flex-1">
                         <Link href={`/produits/${item.product?.slug}`}>
-                          <h3 className="font-medium mb-1 hover-gold transition-luxury">
-                            {item.product?.name}
-                          </h3>
+                                  <h3 className="font-medium mb-1 hover-gold transition-luxury">
+                                      {item.product?.brand ? `${item.product.brand} - ${item.product.name}` : item.product?.name}
+                                  </h3>
                         </Link>
                         {item.variant && (
                           <p className="text-sm text-muted-foreground mb-2">
