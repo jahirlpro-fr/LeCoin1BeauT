@@ -10,10 +10,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getUserOrders, type OrderWithDetails } from "@/services/ordersService";
 import { User, Package, MapPin, Heart, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/router";
 
 export default function AccountPage() {
-  const { toast } = useToast();
-  const [orders, setOrders] = useState<OrderWithDetails[]>([]);
+    const { toast } = useToast();
+    const { user, loading: authLoading } = useAuth();
+    const router = useRouter();
+    const [orders, setOrders] = useState < OrderWithDetails[] > ([]);
   const [loading, setLoading] = useState(true);
   
   const [profile, setProfile] = useState({
@@ -23,24 +27,29 @@ export default function AccountPage() {
     phone: ""
   });
 
-  useEffect(() => {
-    loadUserData();
-  }, []);
+    useEffect(() => {
+        if (!authLoading && !user) {
+            router.push("/connexion?redirect=/compte");
+            return;
+        }
+        if (user) {
+            loadUserData();
+        }
+    }, [user, authLoading]);
 
-  const loadUserData = async () => {
-    setLoading(true);
-    try {
-      const userId = "temp-user-id"; // TODO: remplacer par auth.uid()
-        const userOrders = await getUserOrders(userId);
-      setOrders(userOrders);
-      
-      // TODO: Charger profil utilisateur
-      setProfile({
-        firstName: "Jean",
-        lastName: "Dupont",
-        email: "jean.dupont@example.com",
-        phone: "06 12 34 56 78"
-      });
+    const loadUserData = async () => {
+        if (!user) return;
+        setLoading(true);
+        try {
+            const userOrders = await getUserOrders(user.id);
+            setOrders(userOrders);
+
+            setProfile({
+                firstName: user.user_metadata?.first_name || "",
+                lastName: user.user_metadata?.last_name || "",
+                email: user.email,
+                phone: user.user_metadata?.phone || ""
+            });
     } catch (error) {
       console.error("Error loading user data:", error);
     } finally {
