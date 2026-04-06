@@ -113,74 +113,76 @@ export default function CartPage() {
                   const itemPrice = basePrice + variantAdjustment;
 
                   return (
-                    <div key={item.id} className="bg-card rounded-lg p-6 flex gap-6">
-                      {/* Image */}
-                      <Link href={`/produits/${item.product?.slug}`} className="flex-shrink-0">
-                        <div className="w-24 h-24 rounded-md bg-perle overflow-hidden">
-{item.product?.images && item.product.images.length > 0 ? (
-                            <img
-                              src={item.product.images[0]}
-                              alt={item.product.name}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center">
-                              <ShoppingBag className="h-8 w-8 text-muted-foreground" />
-                            </div>
-                          )}
-                        </div>
-                      </Link>
+                      <div key={item.id} className="bg-card rounded-lg p-6 flex gap-6 relative">
+                          {/* Image */}
+                          <Link href={`/produits/${item.product?.slug}`} className="flex-shrink-0">
+                              <div className="w-24 h-24 rounded-md bg-perle overflow-hidden">
+                                  {item.product?.images && item.product.images.length > 0 ? (
+                                      <img
+                                          src={item.product.images[0]}
+                                          alt={item.product.name}
+                                          className="w-full h-full object-cover"
+                                      />
+                                  ) : (
+                                      <div className="w-full h-full flex items-center justify-center">
+                                          <ShoppingBag className="h-8 w-8 text-muted-foreground" />
+                                      </div>
+                                  )}
+                              </div>
+                          </Link>
 
-                      {/* Infos */}
-                      <div className="flex-1">
-                        <Link href={`/produits/${item.product?.slug}`}>
+                          {/* Infos */}
+                          <div className="flex-1">
+                              <Link href={`/produits/${item.product?.slug}`}>
                                   <h3 className="font-medium mb-1 hover-gold transition-luxury">
                                       {item.product?.brand ? `${item.product.brand} - ${item.product.name}` : item.product?.name}
                                   </h3>
-                        </Link>
-                        {item.variant && (
-                          <p className="text-sm text-muted-foreground mb-2">
-                            {item.variant.name}
-                          </p>
-                        )}
-                        
-                        {/* Quantité */}
-                        <div className="flex items-center gap-3 mt-4">
-                          <button
-                            onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
-                            className="w-8 h-8 border border-border rounded-md hover:border-gold transition-luxury"
-                          >
-                            −
-                          </button>
-                          <span className="text-sm font-medium w-8 text-center">
-                            {item.quantity}
-                          </span>
-                          <button
-                            onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                            className="w-8 h-8 border border-border rounded-md hover:border-gold transition-luxury"
-                          >
-                            +
-                          </button>
-                          
-                          <button
-                            onClick={() => handleRemove(item.id)}
-                            className="ml-auto text-muted-foreground hover:text-destructive transition-luxury"
-                          >
-                            <Trash2 className="h-5 w-5" />
-                          </button>
-                        </div>
-                      </div>
+                              </Link>
+                              {item.variant && (
+                                  <p className="text-sm text-muted-foreground mb-2">
+                                      {item.variant.name}
+                                  </p>
+                              )}
 
-                      {/* Prix */}
-                      <div className="text-right">
-                        <p className="font-medium text-lg">
-                          {(itemPrice * item.quantity).toFixed(2)} €
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {itemPrice.toFixed(2)} € l'unité
-                        </p>
+                              {/* Quantité */}
+                              <div className="flex items-center gap-3 mt-4">
+                                  <button
+                                      onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                                      className="w-8 h-8 border border-border rounded-md hover:border-gold transition-luxury"
+                                  >
+                                      −
+                                  </button>
+                                  <span className="text-sm font-medium w-8 text-center">
+                                      {item.quantity}
+                                  </span>
+                                  <button
+                                      onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                                      className="w-8 h-8 border border-border rounded-md hover:border-gold transition-luxury"
+                                  >
+                                      +
+                                  </button>
+                              </div>
+                          </div>
+
+                          {/* Prix */}
+                          <div className="text-right pb-8">
+                              <p className="font-medium text-lg">
+                                  {(itemPrice * item.quantity).toFixed(2)} €
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                  {itemPrice.toFixed(2)} € l'unité
+                              </p>
+                          </div>
+
+                          {/* Supprimer */}
+                          <button
+                              onClick={() => handleRemove(item.id)}
+                              className="absolute bottom-4 right-4 p-2 text-red-500 hover:text-red-700 transition-luxury"
+                              aria-label="Supprimer"
+                          >
+                              <Trash2 className="h-5 w-5" />
+                          </button>
                       </div>
-                    </div>
                   );
                 })}
               </div>
