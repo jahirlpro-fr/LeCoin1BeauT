@@ -7,23 +7,26 @@ import { Button } from "@/components/ui/button";
 import { getCart, updateCartItemQuantity, removeFromCart, calculateCartTotal, type CartItemWithDetails } from "@/services/cartService";
 import { Trash2, ShoppingBag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function CartPage() {
-  const { toast } = useToast();
-  const [cartItems, setCartItems] = useState<CartItemWithDetails[]>([]);
+    const { toast } = useToast();
+    const { user, loading: authLoading } = useAuth();
+    const [cartItems, setCartItems] = useState < CartItemWithDetails[] > ([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadCart();
-  }, []);
+    useEffect(() => {
+        if (!authLoading && user) {
+            loadCart();
+        }
+    }, [user, authLoading]);
 
-  const loadCart = async () => {
-    setLoading(true);
-    try {
-      // TODO: Remplacer par auth.uid()
-      const userId = "temp-user-id";
-      const items = await getCart(userId);
-      setCartItems(items);
+    const loadCart = async () => {
+        if (!user) return;
+        setLoading(true);
+        try {
+            const items = await getCart(user.id);
+            setCartItems(items);
     } catch (error) {
       console.error("Error loading cart:", error);
     } finally {
