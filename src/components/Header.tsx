@@ -1,12 +1,14 @@
 import Link from "next/link";
-import { ShoppingCart, Search, User, Heart, Menu } from "lucide-react";
+import { ShoppingCart, Search, User, Heart, Menu, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 export function Header() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { user, signOut } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-border">
@@ -66,23 +68,36 @@ export function Header() {
               <Search className="h-5 w-5" />
             </button>
 
-            {/* Account */}
-            <Link href="/compte" className="hidden sm:block p-2 hover-gold transition-luxury">
-              <User className="h-5 w-5" />
-            </Link>
+                      {/* Account */}
+                      {user ? (
+                          <Link href="/compte" className="hidden sm:block p-2 hover-gold transition-luxury">
+                              <User className="h-5 w-5" />
+                          </Link>
+                      ) : (
+                          <Link href="/connexion" className="hidden sm:block p-2 hover-gold transition-luxury">
+                              <User className="h-5 w-5" />
+                          </Link>
+                      )}
 
-            {/* Wishlist */}
-            <Link href="/favoris" className="hidden sm:block p-2 hover-gold transition-luxury">
-              <Heart className="h-5 w-5" />
-            </Link>
+                      {/* Wishlist */}
+                      <Link href={user ? "/favoris" : "/connexion?redirect=/favoris"} className="hidden sm:block p-2 hover-gold transition-luxury">
+                          <Heart className="h-5 w-5" />
+                      </Link>
 
-            {/* Cart */}
-            <Link href="/panier" className="relative p-2 hover-gold transition-luxury">
-              <ShoppingCart className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 bg-gold text-noir text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                0
-              </span>
-            </Link>
+                      {/* Cart */}
+                      <Link href={user ? "/panier" : "/connexion?redirect=/panier"} className="relative p-2 hover-gold transition-luxury">
+                          <ShoppingCart className="h-5 w-5" />
+                          <span className="absolute -top-1 -right-1 bg-gold text-noir text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                              0
+                          </span>
+                      </Link>
+
+                      {/* Déconnexion */}
+                      {user && (
+                          <button onClick={signOut} className="hidden sm:block p-2 hover-gold transition-luxury" title="Déconnexion">
+                              <LogOut className="h-5 w-5" />
+                          </button>
+                      )}
           </div>
         </div>
 
@@ -120,15 +135,28 @@ export function Header() {
               <Link href="/offres" className="text-sm font-medium text-gold hover:text-accent transition-luxury py-2">
                 Offres
               </Link>
-              <div className="border-t border-border pt-3 mt-2">
-                <Link href="/compte" className="flex items-center gap-2 text-sm font-medium hover-gold transition-luxury py-2">
-                  <User className="h-4 w-4" />
-                  Mon Compte
-                </Link>
-                <Link href="/favoris" className="flex items-center gap-2 text-sm font-medium hover-gold transition-luxury py-2">
-                  <Heart className="h-4 w-4" />
-                  Mes Favoris
-                </Link>
+<div className="border-t border-border pt-3 mt-2">
+                {user ? (
+                  <>
+                    <Link href="/compte" className="flex items-center gap-2 text-sm font-medium hover-gold transition-luxury py-2">
+                      <User className="h-4 w-4" />
+                      Mon Compte
+                    </Link>
+                    <Link href="/favoris" className="flex items-center gap-2 text-sm font-medium hover-gold transition-luxury py-2">
+                      <Heart className="h-4 w-4" />
+                      Mes Favoris
+                    </Link>
+                    <button onClick={signOut} className="flex items-center gap-2 text-sm font-medium hover-gold transition-luxury py-2 w-full">
+                      <LogOut className="h-4 w-4" />
+                      Déconnexion
+                    </button>
+                  </>
+                ) : (
+                  <Link href="/connexion" className="flex items-center gap-2 text-sm font-medium hover-gold transition-luxury py-2">
+                    <User className="h-4 w-4" />
+                    Se connecter
+                  </Link>
+                )}
               </div>
             </div>
           </nav>
