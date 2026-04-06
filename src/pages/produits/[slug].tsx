@@ -113,7 +113,7 @@ export default function ProductPage() {
       <SEO
         title={`${product.name} - LE COIN 1 BEAUT`}
         description={product.short_description || product.description || ""}
-        image={product.image_url || undefined}
+              image={product.images?.[0] || undefined}
         url={`/produits/${product.slug}`}
       />
       <div className="min-h-screen flex flex-col bg-background">
@@ -143,9 +143,9 @@ export default function ProductPage() {
               {/* Image */}
               <div className="relative">
                 <div className="aspect-square rounded-lg overflow-hidden bg-perle sticky top-24">
-                  {product.image_url ? (
+{product.images && product.images.length > 0 ? (
                     <img
-                      src={product.image_url}
+                      src={product.images[0]}
                       alt={product.name}
                       className="w-full h-full object-cover"
                     />
