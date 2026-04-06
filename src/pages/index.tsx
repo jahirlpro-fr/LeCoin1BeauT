@@ -37,13 +37,13 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-creme">
-                  <h3 className="font-serif text-2xl mb-2 group-hover:text-gold transition-luxury">Maquillage</h3>
-                  <p className="text-sm text-creme/80">Sublimez votre beauté</p>
-                </div>
-              </div>
+                          <div className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
+                              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
+                              <div className="absolute bottom-0 left-0 right-0 p-6 text-creme">
+                                  <h3 className="font-serif text-2xl mb-2 group-hover:text-gold transition-luxury">Parfums d'intérieur</h3>
+                                  <p className="text-sm text-creme/80">Sublimez votre intérieur</p>
+                              </div>
+                          </div>
 
               <div className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
