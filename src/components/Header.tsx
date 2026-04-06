@@ -41,9 +41,9 @@ export function Header() {
             <Link href="/parfums" className="text-sm font-medium hover-gold transition-luxury">
               Parfums
             </Link>
-            <Link href="/maquillage" className="text-sm font-medium hover-gold transition-luxury">
-              Maquillage
-            </Link>
+<Link href="/parfums-interieur" className="text-sm font-medium hover-gold transition-luxury">
+  Intérieur
+</Link>
             <Link href="/soins" className="text-sm font-medium hover-gold transition-luxury">
               Soins
             </Link>
@@ -108,9 +108,9 @@ export function Header() {
               <Link href="/parfums" className="text-sm font-medium hover-gold transition-luxury py-2">
                 Parfums
               </Link>
-              <Link href="/maquillage" className="text-sm font-medium hover-gold transition-luxury py-2">
-                Maquillage
-              </Link>
+                          <Link href="/parfums-interieur" className="text-sm font-medium hover-gold transition-luxury py-2">
+                              Intérieur
+                          </Link>
               <Link href="/soins" className="text-sm font-medium hover-gold transition-luxury py-2">
                 Soins
               </Link>
