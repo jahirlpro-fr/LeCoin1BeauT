@@ -12,18 +12,21 @@ import { addToCart } from "@/services/cartService";
 import { Heart, ShoppingCart, Check, Truck, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/contexts/CartContext";
 
 export default function ProductPage() {
   const router = useRouter();
   const { slug } = router.query;
     const { toast } = useToast();
     const { user, requireAuth } = useAuth();
+    const { refreshCart } = useCart();
   
   const [product, setProduct] = useState<ProductWithDetails | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
     const [quantity, setQuantity] = useState(1);
     const [selectedImage, setSelectedImage] = useState(0);
     const [loading, setLoading] = useState(true);
+    
 
   useEffect(() => {
     if (slug && typeof slug === "string") {
@@ -52,10 +55,11 @@ export default function ProductPage() {
 
         try {
             await addToCart(user!.id, product.id, quantity, selectedVariant || undefined);
-      toast({
-        title: "Produit ajouté au panier",
-        description: `${product.name} (x${quantity})`,
-      });
+            await refreshCart();
+            toast({
+                title: "Produit ajouté au panier",
+                description: `${product.name} (x${quantity})`,
+            });
     } catch (error) {
       toast({
         title: "Erreur",
