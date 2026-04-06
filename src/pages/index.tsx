@@ -62,6 +62,9 @@ export default function HomePage() {
                           </Link>
 
                           <Link href="/parfums-interieur" className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
+                              {categoryImages["parfums-interieur"] && (
+                                  <img src={categoryImages["parfums-interieur"]} alt="Parfums d'intérieur" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                              )}
                               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
                               <div className="absolute bottom-0 left-0 right-0 p-6 text-creme">
                                   <h3 className="font-serif text-2xl mb-2 group-hover:text-gold transition-luxury">Parfums d'intérieur</h3>
@@ -70,6 +73,9 @@ export default function HomePage() {
                           </Link>
 
                           <Link href="/soins" className="group relative aspect-[4/5] rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury cursor-pointer">
+                              {categoryImages["soins"] && (
+                                  <img src={categoryImages["soins"]} alt="Soins" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                              )}
                               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir/80" />
                               <div className="absolute bottom-0 left-0 right-0 p-6 text-creme">
                                   <h3 className="font-serif text-2xl mb-2 group-hover:text-gold transition-luxury">Soins</h3>
