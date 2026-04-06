@@ -98,8 +98,8 @@ export function ProductCard({ product, onAddToCart, onToggleWishlist, isInWishli
               isInWishlist ? "fill-gold text-gold" : "text-foreground"
             }`}
           />
-        </button>
-      </Link>
+</button>
+      </div>
 
       {/* Content */}
       <div className="p-4">
