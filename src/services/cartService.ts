@@ -47,13 +47,19 @@ export async function addToCart(
   variantId?: string
 ): Promise<CartItem> {
   // Vérifier si le produit existe déjà dans le panier
-  const { data: existing } = await supabase
-    .from("cart_items")
-    .select("*")
-    .eq("user_id", userId)
-    .eq("product_id", productId)
-    .eq("variant_id", variantId || null)
-    .single();
+let existingQuery = supabase
+  .from("cart_items")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("product_id", productId);
+
+if (variantId) {
+  existingQuery = existingQuery.eq("variant_id", variantId);
+} else {
+  existingQuery = existingQuery.is("variant_id", null);
+}
+
+const { data: existing } = await existingQuery.single();
 
   if (existing) {
     // Mettre à jour la quantité
@@ -72,12 +78,12 @@ export async function addToCart(
     return data;
   } else {
     // Créer un nouvel item
-    const newItem: CartItemInsert = {
-      user_id: userId,
-      product_id: productId,
-      variant_id: variantId || null,
-      quantity,
-    };
+const newItem: CartItemInsert = {
+  user_id: userId,
+  product_id: productId,
+  variant_id: variantId ?? null,
+  quantity,
+};
 
     const { data, error } = await supabase
       .from("cart_items")
