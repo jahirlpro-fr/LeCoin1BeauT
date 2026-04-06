@@ -25,7 +25,7 @@ export async function getProducts(filters?: {
       category:categories(*),
       variants:product_variants(*)
     `)
-    .eq("active", true)
+      .eq("is_active", true)
     .order("created_at", { ascending: false });
 
   if (filters?.categoryId) {
@@ -64,7 +64,7 @@ export async function getProductBySlug(slug: string): Promise<ProductWithDetails
       variants:product_variants(*)
     `)
     .eq("slug", slug)
-    .eq("active", true)
+      .eq("is_active", true)
     .single();
 
   if (error) {
