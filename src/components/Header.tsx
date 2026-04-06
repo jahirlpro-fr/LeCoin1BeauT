@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/contexts/CartContext";
 
 export function Header() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const { user, signOut } = useAuth();
+    const { cartCount } = useCart();
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-border">
@@ -87,9 +89,11 @@ export function Header() {
                       {/* Cart */}
                       <Link href={user ? "/panier" : "/connexion?redirect=/panier"} className="relative p-2 hover-gold transition-luxury">
                           <ShoppingCart className="h-5 w-5" />
-                          <span className="absolute -top-1 -right-1 bg-gold text-noir text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                              0
-                          </span>
+                          {cartCount > 0 && (
+                              <span className="absolute -top-1 -right-1 bg-gold text-noir text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                                  {cartCount}
+                              </span>
+                          )}
                       </Link>
 
                       {/* Déconnexion */}
