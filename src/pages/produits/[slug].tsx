@@ -19,8 +19,9 @@ export default function ProductPage() {
   
   const [product, setProduct] = useState<ProductWithDetails | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
-  const [quantity, setQuantity] = useState(1);
-  const [loading, setLoading] = useState(true);
+    const [quantity, setQuantity] = useState(1);
+    const [selectedImage, setSelectedImage] = useState(0);
+    const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (slug && typeof slug === "string") {
@@ -140,29 +141,67 @@ export default function ProductPage() {
           {/* Produit */}
           <section className="container-luxury py-12">
             <div className="grid md:grid-cols-2 gap-12">
-              {/* Image */}
+{/* Image */}
               <div className="relative">
-                <div className="aspect-square rounded-lg overflow-hidden bg-perle sticky top-24">
-{product.images && product.images.length > 0 ? (
-                    <img
-                      src={product.images[0]}
-                      alt={product.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <ShoppingCart className="h-24 w-24 text-muted-foreground" />
+                <div className="flex gap-4 sticky top-24">
+                  {/* Miniatures */}
+                  {product.images && product.images.length > 1 && (
+                    <div className="flex flex-col gap-2">
+                      {product.images.map((img, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setSelectedImage(index)}
+                          className={`w-16 h-16 rounded-md overflow-hidden border-2 transition-luxury ${
+                            selectedImage === index ? "border-gold" : "border-transparent hover:border-border"
+                          }`}
+                        >
+                          <img src={img} alt={`${product.name} ${index + 1}`} className="w-full h-full object-cover" />
+                        </button>
+                      ))}
                     </div>
                   )}
-                  
-                  {/* Badges */}
-                  <div className="absolute top-4 left-4 flex flex-col gap-2">
-                    {product.is_new && (
-                      <Badge className="bg-gold text-noir">Nouveauté</Badge>
+
+                  {/* Image principale */}
+                  <div className="flex-1 aspect-square rounded-lg overflow-hidden bg-perle relative">
+                    {product.images && product.images.length > 0 ? (
+                      <img
+                        src={product.images[selectedImage]}
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <ShoppingCart className="h-24 w-24 text-muted-foreground" />
+                      </div>
                     )}
-                    {hasDiscount && (
-                      <Badge variant="destructive">-{product.discount_percentage}%</Badge>
+
+                    {/* Flèches navigation */}
+                    {product.images && product.images.length > 1 && (
+                      <>
+                        <button
+                          onClick={() => setSelectedImage((prev) => (prev === 0 ? product.images!.length - 1 : prev - 1))}
+                          className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 backdrop-blur flex items-center justify-center hover:bg-background transition-luxury"
+                        >
+                          ‹
+                        </button>
+                        <button
+                          onClick={() => setSelectedImage((prev) => (prev === product.images!.length - 1 ? 0 : prev + 1))}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 backdrop-blur flex items-center justify-center hover:bg-background transition-luxury"
+                        >
+                          ›
+                        </button>
+                      </>
                     )}
+                    
+                    {/* Badges */}
+                    <div className="absolute top-4 left-4 flex flex-col gap-2">
+                      {product.is_new && (
+                        <Badge className="bg-gold text-noir">Nouveauté</Badge>
+                      )}
+                      {hasDiscount && (
+                        <Badge variant="destructive">-{product.discount_percentage}%</Badge>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
