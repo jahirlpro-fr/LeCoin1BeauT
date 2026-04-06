@@ -112,9 +112,9 @@ export default function CartPage() {
                       {/* Image */}
                       <Link href={`/produits/${item.product?.slug}`} className="flex-shrink-0">
                         <div className="w-24 h-24 rounded-md bg-perle overflow-hidden">
-                          {item.product?.image_url ? (
+{item.product?.images && item.product.images.length > 0 ? (
                             <img
-                              src={item.product.image_url}
+                              src={item.product.images[0]}
                               alt={item.product.name}
                               className="w-full h-full object-cover"
                             />
