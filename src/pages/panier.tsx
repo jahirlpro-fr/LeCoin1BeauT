@@ -8,17 +8,22 @@ import { getCart, updateCartItemQuantity, removeFromCart, calculateCartTotal, ty
 import { Trash2, ShoppingBag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/router";
 
 export default function CartPage() {
     const { toast } = useToast();
     const { user, loading: authLoading } = useAuth();
     const [cartItems, setCartItems] = useState < CartItemWithDetails[] > ([]);
-  const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
-        if (!authLoading && user) {
-            loadCart();
+        if (authLoading) return;
+        if (!user) {
+            router.push("/connexion?redirect=/panier");
+            return;
         }
+        loadCart();
     }, [user, authLoading]);
 
     const loadCart = async () => {
