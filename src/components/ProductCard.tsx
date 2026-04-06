@@ -23,9 +23,9 @@ export function ProductCard({ product, onAddToCart, onToggleWishlist, isInWishli
     <div className="group relative bg-card rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury">
       {/* Image Container */}
       <Link href={`/produits/${product.slug}`} className="block relative aspect-[3/4] overflow-hidden bg-perle">
-        {product.image_url ? (
-          <img
-            src={product.image_url}
+              {product.images && product.images.length > 0 ? (
+                  <img
+                      src={product.images[0]}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-luxury"
           />
