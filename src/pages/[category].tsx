@@ -11,6 +11,9 @@ import { Label } from "@/components/ui/label";
 import { getProductsByCategory, getCategories, type ProductWithDetails } from "@/services/productsService";
 import type { Database } from "@/integrations/supabase/types";
 import { SlidersHorizontal, X } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { addToCart } from "@/services/cartService";
+import { useToast } from "@/hooks/use-toast";
 
 type Category = Database["public"]["Tables"]["categories"]["Row"];
 
@@ -27,7 +30,9 @@ export default function CategoryPage() {
   const [priceRange, setPriceRange] = useState([0, 500]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("pertinence");
-  const [inStockOnly, setInStockOnly] = useState(false);
+const [inStockOnly, setInStockOnly] = useState(false);
+  const { user, requireAuth } = useAuth();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (category && typeof category === "string") {
@@ -225,7 +230,22 @@ export default function CategoryPage() {
                 ) : sortedProducts.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {sortedProducts.map(product => (
-                      <ProductCard key={product.id} product={product} />
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        onAddToCart={() => {
+                          if (!requireAuth()) return;
+                          addToCart(user!.id, product.id, 1).then(() => {
+                            toast({ title: "Produit ajouté", description: `${product.name} ajouté au panier` });
+                          }).catch(() => {
+                            toast({ title: "Erreur", description: "Impossible d'ajouter au panier", variant: "destructive" });
+                          });
+                        }}
+                        onToggleWishlist={() => {
+                          if (!requireAuth()) return;
+                          toast({ title: "Favoris", description: "Fonctionnalité bientôt disponible" });
+                        }}
+                      />
                     ))}
                   </div>
                 ) : (
