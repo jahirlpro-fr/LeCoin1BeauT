@@ -65,11 +65,11 @@ export function ProductCard({ product, onAddToCart, onToggleWishlist, isInWishli
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
-          {product.is_new && (
-            <Badge className="bg-gold text-noir hover:bg-gold/90">
-              Nouveauté
-            </Badge>
-          )}
+                  {product.is_featured && (
+                      <Badge className="bg-gold text-noir hover:bg-gold/90">
+                          Nouveauté
+                      </Badge>
+                  )}
                   {hasDiscount && (
                       <Badge variant="destructive">
                           Promo
