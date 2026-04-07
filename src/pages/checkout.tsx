@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { SEO } from "@/components/SEO";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -18,12 +17,12 @@ import { useAuth } from "@/hooks/useAuth";
 export default function CheckoutPage() {
   const router = useRouter();
   const { toast } = useToast();
-  
+  const { user } = useAuth();
+
   const [step, setStep] = useState(1);
   const [cartItems, setCartItems] = useState<CartItemWithDetails[]>([]);
   const [loading, setLoading] = useState(true);
-  
-  // Données commande
+
   const [email, setEmail] = useState("");
   const [deliveryMethod, setDeliveryMethod] = useState("home");
   const [shippingAddress, setShippingAddress] = useState({
@@ -35,31 +34,24 @@ export default function CheckoutPage() {
     country: "France",
     phone: ""
   });
-  const [billingAddress, setBillingAddress] = useState({
-    firstName: "",
-    lastName: "",
-    address: "",
-    city: "",
-    postalCode: "",
-    country: "France"
-  });
-  const [sameAsShipping, setSameAsShipping] = useState(true);
 
   useEffect(() => {
     loadCart();
-  }, []);
+  }, [user]);
 
   const loadCart = async () => {
     setLoading(true);
     try {
-        const { user } = useAuth();
+      const userId = user?.id || "";
+      if (!userId) {
+        router.push("/connexion?redirect=/checkout");
+        return;
+      }
       const items = await getCart(userId);
-      
       if (items.length === 0) {
         router.push("/panier");
         return;
       }
-      
       setCartItems(items);
     } catch (error) {
       console.error("Error loading cart:", error);
@@ -74,35 +66,32 @@ export default function CheckoutPage() {
 
   const handlePlaceOrder = async () => {
     try {
-      const userId = "temp-user-id"; // TODO: remplacer par auth.uid()
-      
+      const userId = user?.id || "";
+
       const orderData = {
-        userId,
         items: cartItems.map(item => ({
           productId: item.product_id,
-          variantId: item.variant_id,
+          variantId: item.variant_id || undefined,
           quantity: item.quantity,
           price: (item.product?.price || 0) + (item.variant?.price_adjustment || 0)
         })),
-        shippingAddress: `${shippingAddress.firstName} ${shippingAddress.lastName}, ${shippingAddress.address}, ${shippingAddress.postalCode} ${shippingAddress.city}, ${shippingAddress.country}`,
-        billingAddress: sameAsShipping 
-          ? `${shippingAddress.firstName} ${shippingAddress.lastName}, ${shippingAddress.address}, ${shippingAddress.postalCode} ${shippingAddress.city}, ${shippingAddress.country}`
-          : `${billingAddress.firstName} ${billingAddress.lastName}, ${billingAddress.address}, ${billingAddress.postalCode} ${billingAddress.city}, ${billingAddress.country}`,
-        shippingMethod: deliveryMethod === "home" ? "Domicile" : "Click & Collect",
+        shippingAddressId: "",
+        billingAddressId: "",
+        subtotal,
         shippingCost,
-        totalAmount: total
+        tax: 0,
+        total,
       };
 
-        const orderId = await createOrder(orderData, "temp-user-id");
-      
+      const order = await createOrder(userId, orderData);
+
       toast({
         title: "Commande confirmée !",
-        description: `Numéro de commande : ${orderId.slice(0, 8)}`,
+        description: `Numéro de commande : ${order.id.slice(0, 8)}`,
       });
-      
-      // TODO: Rediriger vers page paiement Stripe
-      router.push(`/compte/commandes/${orderId}`);
-      
+
+      router.push("/compte");
+
     } catch (error) {
       toast({
         title: "Erreur",
@@ -142,7 +131,7 @@ export default function CheckoutPage() {
       />
       <div className="min-h-screen flex flex-col bg-background">
         <Header />
-        
+
         <main className="flex-1 container-luxury py-12">
           {/* Progress Steps */}
           <div className="mb-12">
@@ -168,11 +157,11 @@ export default function CheckoutPage() {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Formulaire */}
             <div className="lg:col-span-2">
-              {/* Étape 1: Email */}
+
+              {/* Étape 1 */}
               {step === 1 && (
                 <div className="bg-card rounded-lg p-8">
                   <h2 className="font-serif text-2xl mb-6">Vos coordonnées</h2>
-                  
                   <div className="space-y-4">
                     <div>
                       <Label htmlFor="email">Adresse email *</Label>
@@ -189,7 +178,6 @@ export default function CheckoutPage() {
                       </p>
                     </div>
                   </div>
-
                   <Button
                     size="lg"
                     className="w-full mt-8 bg-noir hover:bg-noir/90 text-creme"
@@ -201,12 +189,11 @@ export default function CheckoutPage() {
                 </div>
               )}
 
-              {/* Étape 2: Livraison */}
+              {/* Étape 2 */}
               {step === 2 && (
                 <div className="space-y-6">
                   <div className="bg-card rounded-lg p-8">
                     <h2 className="font-serif text-2xl mb-6">Mode de livraison</h2>
-                    
                     <RadioGroup value={deliveryMethod} onValueChange={setDeliveryMethod}>
                       <div className="flex items-center space-x-3 p-4 border border-border rounded-lg hover:border-gold transition-luxury cursor-pointer">
                         <RadioGroupItem value="home" id="home" />
@@ -222,7 +209,6 @@ export default function CheckoutPage() {
                           </div>
                         </Label>
                       </div>
-
                       <div className="flex items-center space-x-3 p-4 border border-border rounded-lg hover:border-gold transition-luxury cursor-pointer">
                         <RadioGroupItem value="pickup" id="pickup" />
                         <Label htmlFor="pickup" className="flex-1 cursor-pointer">
@@ -242,7 +228,6 @@ export default function CheckoutPage() {
 
                   <div className="bg-card rounded-lg p-8">
                     <h2 className="font-serif text-2xl mb-6">Adresse de livraison</h2>
-                    
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="firstName">Prénom *</Label>
@@ -318,12 +303,11 @@ export default function CheckoutPage() {
                 </div>
               )}
 
-              {/* Étape 3: Récapitulatif & Paiement */}
+              {/* Étape 3 */}
               {step === 3 && (
                 <div className="space-y-6">
                   <div className="bg-card rounded-lg p-8">
                     <h2 className="font-serif text-2xl mb-6">Récapitulatif</h2>
-                    
                     <div className="space-y-4">
                       <div>
                         <h3 className="font-medium mb-2 flex items-center gap-2">
@@ -337,9 +321,7 @@ export default function CheckoutPage() {
                           {deliveryMethod === "home" ? "Livraison à domicile" : "Click & Collect"}
                         </p>
                       </div>
-
                       <Separator />
-
                       <div>
                         <h3 className="font-medium mb-2">Articles ({cartItems.length})</h3>
                         <div className="space-y-2">
@@ -383,20 +365,19 @@ export default function CheckoutPage() {
               )}
             </div>
 
-            {/* Récapitulatif Commande */}
+            {/* Récapitulatif commande */}
             <div>
               <div className="bg-card rounded-lg p-6 sticky top-24">
                 <h3 className="font-serif text-xl mb-4">Votre commande</h3>
-                
                 <div className="space-y-3 pb-4 border-b border-border mb-4">
                   {cartItems.slice(0, 3).map(item => (
                     <div key={item.id} className="flex gap-3">
-                      <div className="w-16 h-16 rounded bg-perle flex-shrink-0">
-                        {item.product?.image_url && (
+                      <div className="w-16 h-16 rounded bg-perle flex-shrink-0 overflow-hidden">
+                        {item.product?.images && item.product.images.length > 0 && (
                           <img
-                            src={item.product.image_url}
+                            src={item.product.images[0]}
                             alt={item.product.name}
-                            className="w-full h-full object-cover rounded"
+                            className="w-full h-full object-cover"
                           />
                         )}
                       </div>
