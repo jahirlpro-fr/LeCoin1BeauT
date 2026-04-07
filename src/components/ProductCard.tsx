@@ -16,10 +16,8 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onAddToCart, onToggleWishlist, isInWishlist }: ProductCardProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const hasDiscount = product.discount_percentage && product.discount_percentage > 0;
-    const discountedPrice = hasDiscount
-    ? product.price * (1 - product.discount_percentage! / 100)
-    : product.price;
+    const hasDiscount = false;
+    const discountedPrice = product.price;
 
   return (
     <div className="group relative bg-card rounded-lg overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-luxury">
@@ -72,11 +70,11 @@ export function ProductCard({ product, onAddToCart, onToggleWishlist, isInWishli
               Nouveauté
             </Badge>
           )}
-          {hasDiscount && (
-            <Badge variant="destructive">
-              -{product.discount_percentage}%
-            </Badge>
-          )}
+                  {hasDiscount && (
+                      <Badge variant="destructive">
+                          Promo
+                      </Badge>
+                  )}
           {!product.stock_quantity && (
             <Badge variant="secondary">
               Rupture
