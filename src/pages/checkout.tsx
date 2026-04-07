@@ -13,6 +13,7 @@ import { getCart, calculateCartTotal, type CartItemWithDetails } from "@/service
 import { createOrder } from "@/services/ordersService";
 import { Check, Truck, Package, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -51,7 +52,7 @@ export default function CheckoutPage() {
   const loadCart = async () => {
     setLoading(true);
     try {
-      const userId = "temp-user-id"; // TODO: remplacer par auth.uid()
+        const { user } = useAuth();
       const items = await getCart(userId);
       
       if (items.length === 0) {
@@ -92,7 +93,7 @@ export default function CheckoutPage() {
         totalAmount: total
       };
 
-      const orderId = await createOrder(orderData);
+        const orderId = await createOrder(orderData, "temp-user-id");
       
       toast({
         title: "Commande confirmée !",
