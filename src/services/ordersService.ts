@@ -40,17 +40,18 @@ export async function createOrder(
   }
 ): Promise<Order> {
   // Créer la commande
-  const newOrder: OrderInsert = {
-    user_id: userId,
-    order_number: `CMD${Date.now()}`,
-    status: "pending",
-    shipping_address_id: orderData.shippingAddressId,
-    billing_address_id: orderData.billingAddressId,
-    subtotal: orderData.subtotal,
-    shipping_cost: orderData.shippingCost,
-    tax: orderData.tax,
-    total: orderData.total,
-  };
+    const newOrder: OrderInsert = {
+        user_id: userId,
+        order_number: `CMD${Date.now()}`,
+        status: "pending",
+        email: "",
+        shipping_address_id: orderData.shippingAddressId,
+        billing_address_id: orderData.billingAddressId,
+        subtotal: orderData.subtotal,
+        shipping_cost: orderData.shippingCost,
+        tax: orderData.tax,
+        total: orderData.total,
+    };
 
   const { data: order, error: orderError } = await supabase
     .from("orders")
