@@ -197,9 +197,9 @@ export default function ProductPage() {
                     
                     {/* Badges */}
                     <div className="absolute top-4 left-4 flex flex-col gap-2">
-                      {product.is_new && (
-                        <Badge className="bg-gold text-noir">Nouveauté</Badge>
-                      )}
+                                          {product.is_featured && (
+                                              <Badge className="bg-gold text-noir">Nouveauté</Badge>
+                                          )}
                                           {hasDiscount && (
                                               <Badge variant="destructive">
                                                   Promo
