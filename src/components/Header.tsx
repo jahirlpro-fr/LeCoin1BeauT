@@ -47,9 +47,9 @@ export function Header() {
                     <div className="flex justify-center w-2/4">
                         <Link href="/" className="transition-luxury hover:opacity-75">
                             <img
-                                src="/logo.svg"
+                                src="/logo.svg?v=2"
                                 alt="LE COIN 1 BEAUT"
-                                className="h-20 w-auto"
+                                className="h-20 w-auto animate-fade-in-slow"
                                 style={{ filter: "drop-shadow(1px 2px 3px rgba(0,0,0,0.25))" }}
                             />
                         </Link>
