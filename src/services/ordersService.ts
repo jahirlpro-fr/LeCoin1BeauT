@@ -89,59 +89,41 @@ export async function createOrder(
 
 // Récupérer les commandes d'un utilisateur
 export async function getUserOrders(userId: string): Promise<OrderWithDetails[]> {
-  const { data, error } = await supabase
-    .from("orders")
-    .select(`
-      *,
-      items:order_items(
-        *,
-        product:products(name, image_url)
-      ),
-      shipping_address:addresses!orders_shipping_address_id_fkey(
-        full_address,
-        city,
-        postal_code,
-        country
-      )
-    `)
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false });
+const { data, error } = await supabase
+  .from("orders")
+  .select(`
+    *,
+    items:order_items(*)
+  `)
+  .eq("user_id", userId)
+  .order("created_at", { ascending: false });
 
-  if (error) {
-    console.error("Error fetching orders:", error);
-    throw error;
-  }
+if (error) {
+  console.error("Error fetching orders:", error);
+  throw error;
+}
 
-  return (data || []) as OrderWithDetails[];
+return (data || []) as unknown as OrderWithDetails[];
 }
 
 // Récupérer une commande par ID
 export async function getOrderById(orderId: string, userId: string): Promise<OrderWithDetails | null> {
-  const { data, error } = await supabase
-    .from("orders")
-    .select(`
-      *,
-      items:order_items(
-        *,
-        product:products(name, image_url)
-      ),
-      shipping_address:addresses!orders_shipping_address_id_fkey(
-        full_address,
-        city,
-        postal_code,
-        country
-      )
-    `)
-    .eq("id", orderId)
-    .eq("user_id", userId)
-    .single();
+const { data, error } = await supabase
+  .from("orders")
+  .select(`
+    *,
+    items:order_items(*)
+  `)
+  .eq("id", orderId)
+  .eq("user_id", userId)
+  .single();
 
   if (error) {
     console.error("Error fetching order:", error);
     return null;
   }
 
-  return data as OrderWithDetails;
+  return data as unknown as OrderWithDetails;
 }
 
 // Mettre à jour le statut d'une commande
