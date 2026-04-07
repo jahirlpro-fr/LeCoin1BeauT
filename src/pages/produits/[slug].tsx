@@ -105,10 +105,8 @@ export default function ProductPage() {
     );
   }
 
-  const hasDiscount = product.discount_percentage && product.discount_percentage > 0;
-  const discountedPrice = hasDiscount
-    ? product.price * (1 - product.discount_percentage! / 100)
-    : product.price;
+    const hasDiscount = false;
+    const discountedPrice = product.price;
 
   const currentVariant = product.variants?.find(v => v.id === selectedVariant);
   const finalPrice = discountedPrice + (currentVariant?.price_adjustment || 0);
@@ -202,9 +200,11 @@ export default function ProductPage() {
                       {product.is_new && (
                         <Badge className="bg-gold text-noir">Nouveauté</Badge>
                       )}
-                      {hasDiscount && (
-                        <Badge variant="destructive">-{product.discount_percentage}%</Badge>
-                      )}
+                                          {hasDiscount && (
+                                              <Badge variant="destructive">
+                                                  Promo
+                                              </Badge>
+                                          )}
                     </div>
                   </div>
                 </div>
