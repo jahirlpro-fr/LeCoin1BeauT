@@ -65,13 +65,15 @@ export async function createOrder(
   }
 
   // Créer les items de la commande
-  const orderItems: OrderItemInsert[] = orderData.items.map(item => ({
-    order_id: order.id,
-    product_id: item.productId,
-    variant_id: item.variantId || null,
-    quantity: item.quantity,
-    price: item.price,
-  }));
+    const orderItems: OrderItemInsert[] = orderData.items.map(item => ({
+        order_id: order.id,
+        product_id: item.productId,
+        variant_id: item.variantId || null,
+        quantity: item.quantity,
+        unit_price: item.price,
+        total_price: item.price * item.quantity,
+        product_name: item.productId,
+    }));
 
   const { error: itemsError } = await supabase
     .from("order_items")
